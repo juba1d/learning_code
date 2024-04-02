@@ -35,17 +35,22 @@ penis_length_inches = calculate_penis_length(user_height_inches, nationality_fac
 
 # Calculate z-score
 mean = world_mean_length_inches
-std_dev = 0.5  # Standard deviation of 0.5 inches
+std_dev = 2.5  # Standard deviation of 2.5 inches
 z_score = (penis_length_inches - mean) / std_dev
 
 # Plot bell curve
 x = np.linspace(0, 10, 100)
-plt.plot(x, norm.pdf(x, mean, std_dev) * 100)  # Multiply by 100 to convert to percentage
+plt.plot(x, norm.pdf(x, mean, std_dev) * 100, label='Probability Density (%)')  # Multiply by 100 to convert to percentage
 plt.fill_between(x, norm.pdf(x, mean, std_dev) * 100, where=(x <= penis_length_inches), color="skyblue", alpha=0.5)
 plt.title('Bell Curve of Penis Length (Z-score)')
 plt.xlabel('Penis Length (inches)')
 plt.ylabel('Probability Density (%)')
 plt.grid(True)
+
+# Plot the red line for the user's z-score
+plt.axvline(x=penis_length_inches, color='red', linestyle='--', label=f'User\'s Z-score: {z_score:.2f} std deviations')
+
+plt.legend()
 plt.show()
 
 # Print the calculated penis length and z-score
