@@ -15,7 +15,7 @@ def calculate_penis_length(human_height_inches, nationality_factor):
     
     # Adjusting penis length based on nationality factor
     if nationality_factor == 1:  # Asian
-        penis_length_inches *= 0.85  # 15% reduction for Asians
+        penis_length_inches *= 0.7  # 30% reduction for Asians
     elif nationality_factor == 3:  # African
         penis_length_inches *= 1.2  # 20% increase for Africans
     
