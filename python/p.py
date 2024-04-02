@@ -23,6 +23,9 @@ def calculate_penis_length(human_height_inches, nationality_factor):
     
     return penis_length_inches
 
+# World's average penis length in inches
+world_mean_length_inches = 5.16
+
 # Example usage
 user_height_inches = float(input("Enter your height in inches: "))
 nationality_factor = int(input("Enter your nationality factor (1 for Asian, 2 for Caucasian, 3 for African): "))
@@ -31,17 +34,17 @@ nationality_factor = int(input("Enter your nationality factor (1 for Asian, 2 fo
 penis_length_inches = calculate_penis_length(user_height_inches, nationality_factor)
 
 # Calculate z-score
-mean = 0
-std_dev = 1
+mean = world_mean_length_inches
+std_dev = 0.5  # Standard deviation of 0.5 inches
 z_score = (penis_length_inches - mean) / std_dev
 
 # Plot bell curve
-x = np.linspace(-3, 3, 100)
-plt.plot(x, norm.pdf(x, mean, std_dev))
-plt.fill_between(x, norm.pdf(x, mean, std_dev), where=(x >= z_score), color="skyblue", alpha=0.5)
+x = np.linspace(0, 10, 100)
+plt.plot(x, norm.pdf(x, mean, std_dev) * 100)  # Multiply by 100 to convert to percentage
+plt.fill_between(x, norm.pdf(x, mean, std_dev) * 100, where=(x <= penis_length_inches), color="skyblue", alpha=0.5)
 plt.title('Bell Curve of Penis Length (Z-score)')
-plt.xlabel('Z-score')
-plt.ylabel('Probability Density')
+plt.xlabel('Penis Length (inches)')
+plt.ylabel('Probability Density (%)')
 plt.grid(True)
 plt.show()
 
