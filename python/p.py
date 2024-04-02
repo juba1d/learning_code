@@ -2,7 +2,6 @@ import math
 import random
 import matplotlib.pyplot as plt
 
-
 def calculate_penis_length(human_height_inches, nationality_factor):
     # Assuming human_height = 4 * pi * penis_length
     # Rearranging the equation to solve for penis_length
@@ -19,7 +18,6 @@ def calculate_penis_length(human_height_inches, nationality_factor):
         penis_length_inches *= 0.7  # 30% reduction for Asians
     elif nationality_factor == 3:  # African
         penis_length_inches *= 1.2  # 20% increase for Africans
-
     
     return penis_length_inches
 
@@ -45,4 +43,5 @@ plt.bar(labels, lengths, color=['blue', 'green'])
 plt.title('Comparison of Penis Lengths')
 plt.ylabel('Penis Length (inches)')
 plt.show()
+
 
