@@ -1,8 +1,7 @@
 import math
 import random
 import matplotlib.pyplot as plt
-import numpy as np
-from scipy.stats import norm
+
 
 def calculate_penis_length(human_height_inches, nationality_factor):
     # Assuming human_height = 4 * pi * penis_length
@@ -17,9 +16,10 @@ def calculate_penis_length(human_height_inches, nationality_factor):
     
     # Adjusting penis length based on nationality factor
     if nationality_factor == 1:  # Asian
-        penis_length_inches *= 0.9  # 10% reduction for Asians
+        penis_length_inches *= 0.7  # 30% reduction for Asians
     elif nationality_factor == 3:  # African
-        penis_length_inches *= 1.1  # 10% increase for Africans
+        penis_length_inches *= 1.2  # 20% increase for Africans
+
     
     return penis_length_inches
 
@@ -33,26 +33,16 @@ nationality_factor = int(input("Enter your nationality factor (1 for Asian, 2 fo
 # Calculate penis length
 penis_length_inches = calculate_penis_length(user_height_inches, nationality_factor)
 
-# Calculate z-score
-mean = world_mean_length_inches
-std_dev = 2.5  # Standard deviation of 2.5 inches
-z_score = (penis_length_inches - mean) / std_dev
+# Print the calculated penis length
+print("Based on your height and nationality, your penis length is approximately:", round(penis_length_inches, 2), "inches")
 
-# Plot bell curve
-x = np.linspace(0, 10, 100)
-plt.plot(x, norm.pdf(x, mean, std_dev) * 100, label='Probability Density (%)')  # Multiply by 100 to convert to percentage
-plt.fill_between(x, norm.pdf(x, mean, std_dev) * 100, where=(x <= penis_length_inches), color="skyblue", alpha=0.5)
-plt.title('Bell Curve of Penis Length (Z-score)')
-plt.xlabel('Penis Length (inches)')
-plt.ylabel('Probability Density (%)')
-plt.grid(True)
+# Data for the bar graph
+labels = ['World Mean Length', 'Your Calculated Length']
+lengths = [world_mean_length_inches, penis_length_inches]
 
-# Plot the red line for the user's z-score
-plt.axvline(x=penis_length_inches, color='red', linestyle='--', label=f'User\'s Z-score: {z_score:.2f} std deviations')
-
-plt.legend()
+# Plotting the bar graph
+plt.bar(labels, lengths, color=['blue', 'green'])
+plt.title('Comparison of Penis Lengths')
+plt.ylabel('Penis Length (inches)')
 plt.show()
 
-# Print the calculated penis length and z-score
-print("Based on your height and nationality, your penis length is approximately:", round(penis_length_inches, 2), "inches")
-print("The corresponding z-score of the penis length is:", round(z_score, 2))
