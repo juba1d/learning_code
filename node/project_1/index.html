@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #calculator {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+        }
+        
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        input[type="number"] {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #result {
+            font-size: 18px;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <h1>Mini Calculator</h1>
+        <form id="calculatorForm">
+            <input type="number" id="num1" placeholder="Enter first number">
+            <input type="number" id="num2" placeholder="Enter second number">
+            <button type="button" onclick="add()">Add</button>
+            <button type="button" onclick="subtract()">Subtract</button>
+            <button type="button" onclick="multiply()">Multiply</button>
+            <button type="button" onclick="divide()">Divide</button>
+        </form>
+        <p id="result"></p>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function add() {
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+            var result = num1 + num2;
+            document.getElementById("result").innerHTML = "Result: " + result;
+            saveCalculation('add', result);
+        }
+
+        function subtract() {
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+            var result = num1 - num2;
+            document.getElementById("result").innerHTML = "Result: " + result;
+            saveCalculation('subtract', result);
+        }
+
+        function multiply() {
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+            var result = num1 * num2;
+            document.getElementById("result").innerHTML = "Result: " + result;
+            saveCalculation('multiply', result);
+        }
+
+        function divide() {
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+            if (num2 === 0) {
+                document.getElementById("result").innerHTML = "Error: Cannot divide by zero";
+            } else {
+                var result = num1 / num2;
+                document.getElementById("result").innerHTML = "Result: " + result;
+                saveCalculation('divide', result);
+            }
+        }
+
+        function saveCalculation(operator, result) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/calculate?num1=' + num1 + '&num2=' + num2 + '&operator=' + operator + '&result=' + result);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('Calculation saved successfully');
+                    // Reload calculations from the server
+                    loadCalculations();
+                } else {
+                    console.error('Error saving calculation:', xhr.responseText);
+                }
+            };
+            xhr.send();
+        }
+
+        function loadCalculations() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/calculations');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var calculations = JSON.parse(xhr.responseText);
+                    console.log('Last 20 calculations:', calculations);
+                    displayCalculations(calculations);
+                } else {
+                    console.error('Error retrieving calculations:', xhr.responseText);
+                }
+            };
+            xhr.send();
+        }
+
+        function displayCalculations(calculations) {
+            var resultContainer = document.getElementById('results');
+            resultContainer.innerHTML = ''; // Clear previous results
+            calculations.forEach(function (calculation) {
+                var calculationString = calculation.num1 + ' ' + calculation.operator + ' ' + calculation.num2 + ' = ' + calculation.result;
+                var calculationItem = document.createElement('div');
+                calculationItem.textContent = calculationString;
+                resultContainer.appendChild(calculationItem);
+            });
+        }
+
+        // Load last 20 calculations from the server on page load
+        window.onload = loadCalculations;
+    </script>
+</body>
+</html>
