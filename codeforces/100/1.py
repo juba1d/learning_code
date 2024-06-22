@@ -11,6 +11,4 @@ while x>0:
     if decision>1:
         counter+=1
     x-=1
-print(counter) 
-    
-    
+print(counter)  
