@@ -1,15 +1,6 @@
-n = int(input())
- 
-capacity = 0
-current = 0
- 
-for _ in range(n):
-    a, b = map(int, input().split())
-        
-    current -= a
-    current += b
-        
-    if current > capacity:
-        capacity = current
-    
-    print(capacity)
+s = input()
+s = s.lower()
+if s[-2] == "a" or s[-2] == "e" or  s[-2] == "i" or s[-2] == "o" or s[-2] == "u"or s[-2] == "y":
+	print("YES")
+else:
+	print("NO")
