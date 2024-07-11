@@ -1,23 +1,15 @@
-id = list(input().split("@"))
+n=input()
+nums=list(map(int, input().split()))
 
-pre = list(id[0].strip())
-poss = list(id[1].strip().split("/"))
-hostname = list(poss[0].strip())
-if (len(poss) > 1): resource = list(poss[1].strip())
-else: resource = ['a', 'b', 'c']
+res=[]
 
-result = "YES"
+for i in range(len(nums)):
+    if nums[i]%2==0:
+        res.append(1)
+    else:
+        res.append(0)
+print(res)
 
-if len(poss) > 2:
-    result = "NO"
+diff = res.index(0) if res.count(0) == 1 else res.index(1)
 
-if not (1 < len(pre) < 16 and 1 < len(hostname) < 16 and 1 < len(resource) < 16):
-    result = "NO"
-
-def is_valid_string(s):
-    return all(char.isalnum() or char == "_" or char == "." for char in s)
-
-if not is_valid_string(pre) or not is_valid_string(hostname) or not is_valid_string(resource):
-    result = "NO"
-
-print(result)
+print(diff+1)
